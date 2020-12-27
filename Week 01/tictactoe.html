@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+<style>
+    #chessboard {
+        background: green;
+        display: inline-block;
+    }
+
+    .cell {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        font-size: 72px;
+        color: red;
+        border: 1px solid #fff;
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+
+<body>
+    <div id="chessboard"></div>
+</body>
+<script>
+    let pattern = [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        role = 1;
+    // 转换标记
+    function getMark(value) {
+        return value === 2 ? "○" : value === 1 ? "×" : "";
+    }
+    // 初始化棋盘
+    function init() {
+        const board = document.getElementById("chessboard"),
+            fragEle = document.createDocumentFragment();
+        for (let i = 0; i < pattern.length; i++) {
+            let cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.innerText = getMark(pattern[i]);
+            cell.addEventListener("click", () => userMove(i));
+            fragEle.appendChild(cell);
+            if (i % 3 === 2) {
+                fragEle.appendChild(document.createElement("br"));
+            }
+        }
+        board.appendChild(fragEle);
+    }
+    // 装填棋盘内容
+    function show() {
+        const cells = document.getElementsByClassName("cell");
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].innerText = getMark(pattern[i]);
+        }
+    }
+    // 验证胜利方
+    function check(pattern, role) {
+        for (let i = 0; i < 3; i++) {
+            let win = true;
+            for (let j = 0; j < 3; j++) {
+                if (pattern[i * 3 + j] !== role) {
+                    win = false;
+                }
+            }
+            if (win) {
+                return win;
+            }
+        }
+        for (let i = 0; i < 3; i++) {
+            let win = true;
+            for (let j = 0; j < 3; j++) {
+                if (pattern[j * 3 + i] !== role) {
+                    win = false;
+                }
+            }
+            if (win) {
+                return win;
+            }
+        } {
+            let win = true;
+            for (let j = 0; j < 3; j++) {
+                if (pattern[j * 4] !== role) {
+                    win = false;
+                }
+            }
+            if (win) {
+                return win;
+            }
+        } {
+            let win = true;
+            for (let j = 0; j < 3; j++) {
+                if (pattern[2 * (j + 1)] !== role) {
+                    win = false;
+                }
+            }
+            if (win) {
+                return win;
+            }
+        }
+        return false;
+    }
+    // 是否将要获胜
+    function willWin(pattern, role) {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (pattern[i * 3 + j]) {
+                    continue;
+                }
+                let tempPattern = clone(pattern);
+                tempPattern[i * 3 + j] = role;
+                if (check(tempPattern, role)) {
+                    return [j, i];
+                }
+            }
+        }
+        return null;
+    }
+    function clone(pattern) {
+        return Object.create(pattern);
+    }
+    // 最佳下一步
+    function bestChoice(pattern, role) {
+        let p;
+        if ((p = willWin(pattern, role))) {
+            return {
+                point: p,
+                result: 1,
+            };
+        }
+        let result = -2,
+            point = null;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (pattern[i * 3 + j]) {
+                    continue;
+                }
+                let tempPattern = clone(pattern);
+                tempPattern[i * 3 + j] = role;
+                let r = bestChoice(tempPattern, 3 - role).result;
+                if (-r > result) {
+                    point = [j, i];
+                    result = -r;
+                }
+            }
+        }
+
+        return {
+            point,
+            result: point ? result : 0,
+        };
+    }
+    function userMove(i) {
+        pattern[i] = role;
+        if (check(pattern, role)) {
+            alert(getMark(role) + " will win");
+        }
+        show();
+        role = 3 - role;
+        robotMove();
+    }
+    // 机器人
+    function robotMove() {
+        const point = bestChoice(pattern, role).point;
+        if (point) {
+            const index = point[1] * 3 + point[0];
+            pattern[index] = role;
+        }
+        if (check(pattern, role)) {
+            alert(getMark(role) + " will win");
+        }
+        role = 3 - role;
+        show();
+    }
+    init();
+</script>
+
+</html>
