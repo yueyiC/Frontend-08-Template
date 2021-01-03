@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+<style>
+    #container {
+        width: 701px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        align-content: center;
+    }
+
+    .cell {
+        width: 6px;
+        height: 6px;
+        line-height: 6px;
+        background: gray;
+        border-right: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+    }
+</style>
+
+<body>
+    <div id="container"></div>
+    <button onclick="saveMap()">save</button>
+</body>
+<script>
+    let map = localStorage.getItem("map") ?
+        JSON.parse(localStorage.getItem("map")) :
+        Array(10000).fill(0);
+
+    function saveMap() {
+        localStorage.setItem("map", JSON.stringify(map));
+    }
+    let fragElement = document.createDocumentFragment(),
+        container = document.getElementById("container");
+    for (let y = 0;y < 100; y++) {
+        for (let x = 0; x < 100; x++) {
+            let cell = document.createElement("div");
+            cell.classList.add("cell");
+            if (map[100 * y + x] == 1) {
+                cell.style.backgroundColor = "black";
+            }
+            cell.addEventListener("mousemove", ()=> {
+                if (mouseDown) {
+                    if (clear) {
+                        cell.style.backgroundColor = "gray";
+                        map[y * 100 + x] = 0;
+                    } else {
+                        cell.style.backgroundColor = "black";
+                        map[y * 100 + x] = 1;
+                    }
+                }
+            });
+            fragElement.appendChild(cell);
+        }
+    }
+    container.appendChild(fragElement);
+    let mouseDown = false,
+        clear = false;
+    document.addEventListener("mousedown", (e) => {
+        mouseDown = true;
+        clear = e.which === 3;
+    });
+    document.addEventListener("mouseup", () => {
+        mouseDown = false;
+    });
+    document.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+    });
+</script>
+
+</html>
