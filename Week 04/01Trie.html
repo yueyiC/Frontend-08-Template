@@ -1,0 +1,49 @@
+<script>
+    let $ = Symbol("$");
+    class Trie {
+        constructor(){
+            this.root = Object.create(null);
+        }
+        insert(word){
+            let node = this.root;
+            for(let c of word){
+                if(!node[c]){
+                    node[c] = Object.create(null);
+                }
+                //node往下一层级移动
+                node = node[c];
+            }
+            //结尾符
+            if(!($ in node)){
+                node[$] = 0;
+            }
+            //字符串重复数量
+            node[$] ++;
+        }
+        most(){
+            let max = 0,maxWord = null,
+            visit = (node,word)=>{
+                if(node[$] && node[$] > max){
+                    max = node[$];
+                    maxWord = word;
+                }
+                for(let p in node){
+                    visit(node[p],word+p);
+                }
+            }
+            visit(this.root,"");
+            console.log(maxWord,max)
+        }
+    }
+    function randowWord(length){
+        let s = "";
+        for(let i = 0; i< length;i++){
+            s+= String.fromCharCode(Math.random()*26 + "a".charCodeAt(0));
+        }
+        return s;
+    }
+    let trie = new Trie();
+    for(let i=0;i<100000;i++){
+        trie.insert(randowWord(4));
+    }
+</script>
