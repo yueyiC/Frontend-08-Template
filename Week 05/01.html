@@ -1,0 +1,15 @@
+<script>
+    let object = {
+        a:1,
+        b:2
+    }
+    //Proxy:访问对象前添加一层拦截，自定义过滤操作 new Proxy(target, handler)
+    let po = new Proxy(object,{
+        set(obj,prop,value){
+            console.log("obj,prop,value",obj,prop,value);
+        },
+        get(obj,prop){
+            console.log("obj,prop",obj,prop);
+        }
+    })
+</script>

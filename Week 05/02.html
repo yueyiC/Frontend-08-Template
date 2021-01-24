@@ -1,0 +1,21 @@
+<script>
+  let object = {
+    a: 1,
+    b: 2,
+  };
+  let po = reactive(object);
+  //返回一个Proxy对象
+  function reactive(obj) {
+    return new Proxy(object, {
+      set(obj, prop, value) {
+        obj[prop] = value;
+        console.log("obj,prop,value", obj, prop, value);
+        return obj[prop];
+      },
+      get(obj, prop) {
+        console.log("obj,prop", obj, prop);
+        return obj[prop];
+      },
+    });
+  }
+</script>
