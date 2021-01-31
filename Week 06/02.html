@@ -1,0 +1,7 @@
+<Expression>::= <AdditiveExpression> | "(" <LogicalExpress> ")"
+
+<LogicalExpress>::= <Expression>
+    
+<AdditiveExpression>::= <MultiplicativeExpresstion> | <AdditiveExpression>"+"<MultiplicativeExpresstion> | <AdditiveExpression>"-"<MultiplicativeExpresstion>
+    
+<MultiplicativeExpresstion>::= <Number> | <MultiplicativeExpresstion>"*"<Number> | <MultiplicativeExpresstion>"/"<Number>

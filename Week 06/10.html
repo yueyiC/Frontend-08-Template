@@ -1,0 +1,13 @@
+<script>
+  class Human {
+    constructor() {
+      //血量
+      this.hp = 100;
+      this.hurt = (damage) => {
+        let restHp = this.hp - damage;
+        this.hp = restHp > 0 ? restHp : 0;
+        console.log(`存活状态：${this.hp > 0 ? "存活" : "死亡"}`);
+      };
+    }
+  }
+</script>

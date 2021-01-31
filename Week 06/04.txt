@@ -1,0 +1,23 @@
+计算机语言的几种分类
+1.数据描述语言和编程语言
+数据描述语言：JSON，HTML,XAML,SQL,CSS
+编程语言：C，C++，Java,C#, Python, Ruby, Perl, Lisp, T-SQL, Clojure, Haskell, Javascript
+2.声明式语言和命令式语言
+声明式语言：JSON，HTML，XAML，SQL，CSS，Lisp, Clojure, Haskell
+命令式语言：C, C++, Java, C#, Python, Ruby, Perl, Javascript
+3.高级语言和低级语言
+高级语言：C，C++，Java，Python，PHP，C#，Ruby，Go，Kotlin，Swift，Pascal，Lisp
+低级语言：机器语言、汇编语言和符号语言 
+4.动态类型和静态类型
+动态类型：Python，Ruby，Lisp，JavaScript，Tcl，Prolog
+静态类型：C，C++，C#，Java
+5.强类型和弱类型
+强类型：C，C++，C#，Java，Python
+弱类型：PHP，ASP，Ruby，Perl，ABAP，SQL，JavaScript，Unix Shell
+6.编译型，解释型，半编译半解释
+编译型：C、 C++、Fortran、Visual Foxpro、Pascal、Delphi、Ada
+解释型：Python，JavaScript，Perl, Shell, Tcl, Ruby, VBScript
+半编译半解释：Java
+7.面向对象型和面向过程型
+面向对象型：Java,C#,C++,Python,Go
+面向过程型：C，Fortran
