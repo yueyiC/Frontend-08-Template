@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      //参考优秀练习
+      function StringToNumber(str) {
+        let number = 0,
+          start = str.substring(0, 2),
+          numberDic = {
+            "Ox": { rangeNumber: "0123456789abcdef", num: 16 },
+            "Oo": { rangeNumber: "01234567", num: 8 },
+            "Ob": { rangeNumber: "01", num: 2 },
+          },
+          numbersObj = numberDic[start];
+        if (numbersObj) {
+          for (let i = str.length - 1; i >= 2; i--) {
+            let item = str[i];
+            number +=
+              Number(numbersObj.rangeNumber.indexOf(item)) *
+              numbersObj.num ** (str.length - 1 - i);
+          }
+          return number;
+        } else {
+          return Number(str);
+        }
+      }
+      //参考优秀练习
+      function NumberToString(number, scale) {
+        let result = "",
+          num = Math.abs(number),
+          sign = number >= 0 ? "" : "-";
+        if (number === 0) return "0";
+        switch (scale) {
+          case 2:
+          case 8:
+          case 16:
+            while (num > 0) {
+              if (num % scale) {
+                result = (num % scale) + result;
+              } else {
+                result = 0 + result;
+              }
+              num >>= Math.log2(scale);
+            }
+            break;
+          default:
+            return String(Number);
+        }
+        return sign + result;
+      }
+      console.log(StringToNumber("0x2344"));
+      console.log(StringToNumber("0o3434"));
+      console.log(StringToNumber("3434"));
+      console.log(NumberToString(89, 8));
+      console.log(NumberToString(89, 16));
+    </script>
+  </body>
+</html>
