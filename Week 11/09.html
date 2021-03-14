@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div id="header">
+            <div class="left">
+                <span id="test"></span>
+            </div>
+        </div>
+        <div id="main">
+            <div class="cover"></div>
+        </div>
+        <div id="footer">
+
+        </div>
+    </div>
+    <script>
+        //仅能匹配标签，类名，id
+        function match(selector,element){
+            let arr = selector.split(" ");
+            arr = arr.reverse(),
+            result = arr.reduce((prev,cur)=>{
+                console.log("prev",prev)
+                if(prev.result && prev.element){
+                    return this.matchChild(cur,prev.element);
+                }else{
+                    return {result:false,element:null}
+                }
+            },{result:true,element:element});
+            if(result.result){
+                console.log("匹配成功")
+            }else{
+                console.log("匹配失败")
+            }
+            console.log("最终结果",result)
+        }
+        function matchChild(selector,element){
+            let arr = selector.split(" ");
+            arr = arr.reverse(),currentSelector = arr[0],result = true;
+            const idMatch = currentSelector.match(/(?<=#)\w+/g),classMatch = currentSelector.match(/(?<=\.)\w+/g),tagMatch = currentSelector.match(/(?<=\s)[\w]+|^[\w]+/g);
+            elementId = element.id,elementClass = Array.from(element.classList),elementTag = element.tagName;
+            if(idMatch && idMatch[0] !== elementId){
+                result = false;
+            }
+            if(tagMatch && tagMatch[0] !== elementTag.toLowerCase()){
+                result = false;
+            }
+            if(classMatch){
+                for(let i=0;i<classMatch.length;i++){
+                    if(elementClass.indexOf(classMatch[i]) === -1){
+                        result = false;
+                        break;
+                    }
+                }
+            }
+            return { result,element:element.parentNode};
+        }
+        match("#header div.left span#test",document.getElementById("test"));
+    </script>
+</body>
+</html>
